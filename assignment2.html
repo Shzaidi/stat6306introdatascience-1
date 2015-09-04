@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>STAT6306 Assignment 2 - Kevin Kyoo Ha Cha</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+
+
+</head>
+
+<body>
+<h1>STAT6306 Assignment 2 - Kevin Kyoo Ha Cha</h1>
+
+<p>Red: Programming
+Yellow: Math
+Green: Statistics
+Emerald: Maching Learning
+Light Blue: Expertise
+Dark Blue: Communcation &amp; Presentation
+Purple: Data Visulatization
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAAqFBMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZo8AZrUAkv8A/5I5AAA5ADk5AGU5OWU5OY85ZrU5j9pJAP9J/wBlAABlADllAGVlOQBlOTllZjllZmVltdpltf2POQCPOTmPOWWPZgCPjzmPj2WP27WP29qP2/21ZgC1tWW124+1/rW1/v3ajzna24/a/rXa/tra/v39tWX924/9/rX9/tr9/v3/AAD/ANv/2wCtUMlkAAAAOHRSTlP/////////////////////////////////////////////////////////////////////AP///8hb+LYAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAnXSURBVHic7dwLW9vWAcfhOqwZG80Ym0O3DtLuAmuhG9ho2/f/ZtORZINNUkuyuZj/+3uS2pIv50ivJZs8pl9Viuyrl56AXibwoYEPDXxo4EMDHxr40MCHBj408KGBDw18aOBDAx8a+NDAhwY+NPChgQ8NfGjgQwMfGvjQwIcGPjTwoYEPDXxo4EMDHxr40MCHBj408KGBDw18aOBDAx8a+NDAhwY+NPChgQ8NfGjgQwMfGvjQwIcGPjTwoYEPDXxo4EMDHxr40MCHthF+fnpVzaeTyfub55iOnqs+8MW+mv3+Oaaj56oP/Oz4pj3yuyaLnnZqm5oM7GVn+9raDD9994/vyxF//Ohc/9LwfxwU+JV6fLi7O58cVrcHV49uAL/HbfOpHvweBz408KGBDw18aOBDAx8a+NDAhwY+NPChgQ8NfGjgQwMfGvjQwIcGPjTwoYEPDXxo4EMDHxr40MCHBj408KGBDw18aOBDAx8a+NDAhwY+NPChgQ8NfGjgQwMfGvjQwIcGPjTwoYEPDXxo4EMDHxr40MCHBj408KGBDw18aOBDAx8a+NDAhwY+NPChgQ8NfGjgQwMfGvjQwIcGPjTwoYEPrSf87MPV45Xg97iN8PPppO3gET34PW7zET+f1uQrR/xk0W6mMBnY8nHgt6jPqX4+ff/zE57qJ/8bFPid1O89fnb0+EQPfq97BZ/qwb9E4EMDHxr40MCHBj408KGBDw18aOBDAx8a+NDAhwY+NPChgQ8NfGjgQwMfGvjQwIcGPjTwoYEPDXxo4EMDHxr4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" alt="plot of chunk unnamed-chunk-1"/> </p>
+
+</body>
+
+</html>
+
