@@ -1,0 +1,11 @@
+STAT6306 Assignment 2 - Kevin Kyoo Ha Cha
+========================================================
+
+```{r, echo=FALSE}
+skills <-c("Programming","Math","Statistics","Machine Learning","Expertise","Communication","Data Viz")
+Ratings <-c(3,4,5,3,3,1,3)
+barplot(Ratings,names.arg=skills,col=rainbow(7))
+```
+
+
+
