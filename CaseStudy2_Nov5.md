@@ -165,26 +165,26 @@ sapply(posts,`[[`, "salary")
 ```
 
 ```
-##           /data-scientist-job-202521           /data-scientist-job-214172 
-##            "Full-time $120k - $200k"            "Full-time $100k - $160k" 
-##           /data-scientist-job-200988           /data-scientist-job-184567 
-##            "Full-time $100k - $160k"            "Full-time $130k - $160k" 
-##           /data-scientist-job-230442           /data-scientist-job-234161 
-##            "Full-time $140k - $160k" "Full-time Compensation Unspecified" 
-##           /data-scientist-job-223862           /data-scientist-job-230135 
+##           /data-scientist-job-214172           /data-scientist-job-200988 
+##            "Full-time $100k - $160k"            "Full-time $100k - $160k" 
+##           /data-scientist-job-184567           /data-scientist-job-230442 
+##            "Full-time $130k - $160k"            "Full-time $140k - $160k" 
+##           /data-scientist-job-234161           /data-scientist-job-223862 
 ## "Full-time Compensation Unspecified" "Full-time Compensation Unspecified" 
-##           /data-scientist-job-231278           /data-scientist-job-235549 
-##             "Full-time $50k - $110k"            "Full-time $120k - $150k" 
-##           /data-scientist-job-232102           /data-scientist-job-223543 
-##            "Full-time $100k - $160k"            "Full-time $100k - $150k" 
-##           /data-scientist-job-193909           /data-scientist-job-199692 
-##            "Full-time $110k - $150k" "Full-time Compensation Unspecified" 
-##           /data-scientist-job-221652           /data-scientist-job-224228 
-##             "Full-time $75k - $150k"            "Full-time $100k - $150k" 
-##           /data-scientist-job-227142           /data-scientist-job-227433 
-##            "Full-time $100k - $130k"             "Full-time $75k - $100k" 
-##           /data-scientist-job-227439           /data-scientist-job-227443 
-##            "Full-time $120k - $140k"             "Full-time $90k - $110k"
+##           /data-scientist-job-230135           /data-scientist-job-231278 
+## "Full-time Compensation Unspecified"             "Full-time $50k - $110k" 
+##           /data-scientist-job-235549           /data-scientist-job-232102 
+##            "Full-time $120k - $150k"            "Full-time $100k - $160k" 
+##           /data-scientist-job-223543           /data-scientist-job-193909 
+##            "Full-time $100k - $150k"            "Full-time $110k - $150k" 
+##           /data-scientist-job-199692           /data-scientist-job-221652 
+## "Full-time Compensation Unspecified"             "Full-time $75k - $150k" 
+##           /data-scientist-job-224228           /data-scientist-job-227142 
+##            "Full-time $100k - $150k"            "Full-time $100k - $130k" 
+##           /data-scientist-job-227433           /data-scientist-job-227439 
+##             "Full-time $75k - $100k"            "Full-time $120k - $140k" 
+##           /data-scientist-job-227443           /data-scientist-job-233385 
+##             "Full-time $90k - $110k"            "Full-time $110k - $150k"
 ```
 
 ```r
@@ -193,7 +193,7 @@ summary(sapply(posts, function(x) length(unlist(x$words))))
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    66.0    99.0   126.5   141.1   166.5   326.0
+##    66.0    99.0   126.5   143.4   168.8   326.0
 ```
 
 **Question:** Test the `cy.getFreeFromWords()` function on several different posts.
@@ -262,7 +262,7 @@ tt[tt >= 2]
 ##                                        Python 
 ##                                            88 
 ##                                   Data Mining 
-##                                            71 
+##                                            72 
 ##                                             R 
 ##                                            69 
 ##                                        Hadoop 
@@ -270,7 +270,7 @@ tt[tt >= 2]
 ##                                           SQL 
 ##                                            38 
 ##                                          Java 
-##                                            25 
+##                                            26 
 ##                                        Matlab 
 ##                                            22 
 ##                                           SAS 
@@ -287,8 +287,6 @@ tt[tt >= 2]
 ##                                            14 
 ##                          Predictive Analytics 
 ##                                            10 
-##                                  Data Science 
-##                                             9 
 ##                                         SPARK 
 ##                                             9 
 ##                                    Statistics 
@@ -296,6 +294,8 @@ tt[tt >= 2]
 ##                                           C++ 
 ##                                             8 
 ##                                 Data Modeling 
+##                                             8 
+##                                  Data Science 
 ##                                             8 
 ##                                Data Scientist 
 ##                                             8 
@@ -317,11 +317,11 @@ tt[tt >= 2]
 ##                                             6 
 ##                           Predictive Modeling 
 ##                                             6 
+##                            Data Visualization 
+##                                             5 
 ##                                 Deep Learning 
 ##                                             5 
 ##                                         C/C++ 
-##                                             4 
-##                            Data Visualization 
 ##                                             4 
 ##                                          Hive 
 ##                                             4 
@@ -377,6 +377,8 @@ tt[tt >= 2]
 ##                                             2 
 ##                                Data Analytics 
 ##                                             2 
+##                             Data Manipulation 
+##                                             2 
 ##                                     data sets 
 ##                                             2 
 ##                               data structures 
@@ -423,6 +425,8 @@ tt[tt >= 2]
 ##                                             2 
 ##                                      Python/R 
 ##                                             2 
+##                               Python/R/Matlab 
+##                                             2 
 ##                                      R/Python 
 ##                                             2 
 ##                        Recommendation Engines 
@@ -459,13 +463,6 @@ tt[tt >= 2]
 ##                                             2
 ```
 
-```r
-dataSciPosts = cyberCoders("Data Scientist")
-tt = sort(table(unlist(lapply(dataSciPosts, `[[`, "skills"))),
-           decreasing = TRUE)
-abc <- tt[tt >= 2]
-```
-
 ###Word Cloud for all skills.
 
 The purpose to perform this task is to visualize every skills listed and see how we will plan to categorize similar skills into one group.
@@ -475,16 +472,18 @@ The max.words option sets maximum number of words to be plotted. In this case we
 
 ```r
 #The option, max.words=50, sets maximum number of words to be plotted. In this case we are having maximum of 50 and least frequent skills dropped.
-wordcloud(names(abc),abc,max.words = 50,colors=brewer.pal(8, "Dark2"))
+wordcloud(names(tt),tt,max.words = 50,colors=brewer.pal(8, "Dark2"))
 ```
 
 ```
-## Warning in wordcloud(names(abc), abc, max.words = 50, colors =
+## Warning in wordcloud(names(tt), tt, max.words = 50, colors =
 ## brewer.pal(8, : Machine Learning could not be fit on page. It will not be
 ## plotted.
 ```
 
 ![](CaseStudy2_Nov5_files/figure-html/unnamed-chunk-1-1.png) 
+
+**Notice that we have a warning sign because the size of Machine Learning is too large to fit in one page**
 
 ###Word Cloud after Categorize
 
@@ -530,7 +529,7 @@ We now combine similar skills into several categories:
 ```r
 i = grepl("^Statist+|statist+",names(tt))
 if(any(i)) names(tt)[i] = "Statistics"
-#tt <- table(names(tt))#recombines renamed categories from tt
+
 
 j = grepl("+SQL+",names(tt))
 if(any(j)) names(tt)[j] = "SQL"
@@ -545,7 +544,8 @@ m = grepl("^Bayesian+", names(tt))
 if(any(m)) names(tt)[m] = "Bayesian"
 
 n= grepl("+Machine Learning+| +machine learning +", names(tt))
-if(any(n)) names(tt)[n] = "Machine Learning"
+if(any(n)) names(tt)[n] = "ML"
+#The size of "Machine Learning" is too large to put in wordcloud, so we change it as "ML"
 
 o= grepl("^Python+", names(tt))
 if(any(o)) names(tt)[o] = "Python"
@@ -595,7 +595,7 @@ if(any(kk)) names(tt)[kk] = "Data Visualization"
 ll= grepl("^Data Sci+", names(tt))
 if(any(ll)) names(tt)[ll] = "Data Science"
 
-tt <- table(names(tt))
+tt <- tapply(tt,names(tt),sum)
 
 length(tt)
 ```
@@ -609,11 +609,10 @@ head(tt)
 ```
 
 ```
-## 
 ##              .NET             Adobe             Agile Agricultural Data 
-##                 1                 1                 1                 1 
+##                 1                 1                 2                 1 
 ##                AI              Ajax 
-##                 1                 1
+##                 2                 1
 ```
 
 ```r
@@ -621,39 +620,167 @@ tt[tt >= 2]
 ```
 
 ```
-## 
-##            Algorithm             Bayesian             Big Data 
-##                    4                    3                    6 
-##                C/C++       Data Analytics          Data Mining 
-##                    2                    4                    3 
-##         Data Science               Hadoop                 Java 
-##                    2                    2                    6 
-##     Machine Learning          Mathematics Predictive Analytics 
-##                    8                    3                    5 
-##               Python                    R                  SAS 
-##                    6                   15                    4 
-##                  SQL           Statistics           Unix/Linux 
-##                   11                   11                    3
+##                                         Agile 
+##                                             2 
+##                                            AI 
+##                                             2 
+##                                     Algorithm 
+##                                            20 
+##                                  Apache Spark 
+##                                            14 
+##                                           AWS 
+##                                             6 
+##                                      Bayesian 
+##                                             5 
+##                                      Big Data 
+##                                            30 
+##                                Bioinformatics 
+##                                             2 
+##                                         C/C++ 
+##                                             5 
+##                                           C++ 
+##                                             8 
+##                                 Clinical Data 
+##                                             2 
+##                 Complex Quantitative Analysis 
+##                                             2 
+##                               Computer Vision 
+##                                             3 
+##               Consumer Segmentation Reporting 
+##                                             2 
+##                            Context Extraction 
+##                                             2 
+##                                Data Analytics 
+##                                            10 
+##                             Data Manipulation 
+##                                             2 
+##                                   Data Mining 
+##                                            74 
+##                                 Data Modeling 
+##                                             8 
+##                                  Data Science 
+##                                            16 
+##                                     data sets 
+##                                             2 
+##                               data structures 
+##                                             2 
+##                            Data Visualization 
+##                                             5 
+##                              Data Warehousing 
+##                                             2 
+##                                 Deep Learning 
+##                                             5 
+##                                 elasticsearch 
+##                                             3 
+##                                           ETL 
+##                                             2 
+##                                         Excel 
+##                                             3 
+##                   Excel Pivot Tables & Macros 
+##                                             2 
+## Exp with Click stream data(raw web analytics) 
+##                                             2 
+##                           Experimental Design 
+##                                             2 
+##                           Geo-Spatial Analyst 
+##                                             2 
+##                                           Git 
+##                                             3 
+##                                        Hadoop 
+##                                            57 
+##                                          HDFS 
+##                                             3 
+##                Healthcare/biomedical industry 
+##                                             2 
+##                                          Hive 
+##                                             4 
+##                                        HiveQL 
+##                                             2 
+##                                          Java 
+##                                            31 
+##                               Large Data Sets 
+##                                             2 
+##                                         Linux 
+##                                            15 
+##                                        Mahout 
+##                                             2 
+##                                    Map/Reduce 
+##                                             2 
+##                                     Mapreduce 
+##                                             7 
+##                                   Mathematics 
+##                                             6 
+##                                        Matlab 
+##                                            22 
+##                                            ML 
+##                                           106 
+##                            Mobile Advertising 
+##                                             3 
+##                                       mongodb 
+##                                             2 
+##                   Natural Language Processing 
+##                                             6 
+##                                           NLP 
+##                                             3 
+##                                           OOP 
+##                                             2 
+##                                Pandas & NumPy 
+##                                             3 
+##                                          Perl 
+##                                             2 
+##                                           PHP 
+##                                             2 
+##                          Predictive Analytics 
+##                                            21 
+##                    Product Analyst experience 
+##                                             2 
+##                                   Programming 
+##                                             2 
+##                                        Python 
+##                                            95 
+##                                             R 
+##                                            87 
+##                                           SAS 
+##                                            23 
+##                                         Scala 
+##                                            17 
+##                                  scikit.learn 
+##                                             2 
+##                                     Scripting 
+##                                             2 
+##                                         SPARK 
+##                                             9 
+##                                          SPSS 
+##                                             3 
+##                                           SQL 
+##                                            59 
+##                            StartUp Experience 
+##                                             2 
+##                                    Statistics 
+##                                            34 
+##                    Strong Econometric mindset 
+##                                             2 
+##                                       Tableau 
+##                                             4 
+##                                    Unix/Linux 
+##                                             5 
+##                                           VBA 
+##                                             2 
+##                          Virtual Environments 
+##                                             2
 ```
 
 ```r
-wordcloud(names(tt),tt,min.freq = 1,random.order=T,
-colors=brewer.pal(8, "Dark2"),rot.per=0.35, max.words = 30)
+wordcloud(names(tt),tt,min.freq = 2,random.order=T,
+colors=brewer.pal(8, "Dark2"),rot.per=0.35)
 ```
 
 ![](CaseStudy2_Nov5_files/figure-html/unnamed-chunk-2-1.png) 
 
-After we categorize similar skills, this wordcloud looks more meaningful since we only see some kind of distinctive skills. The max.words option sets maximum number of words to be plotted. In this case we are having maximum of 30 and least frequent skills dropped. We also set minimum frequency as 1 to see other skills that we did not categorize. Notice that un-categorized skills display with the least size font as well as in light green colour.
+**Note: Machine Learning = ML**
 
-If we want to visualize only categozized skills, we can remove min.freq=1 and max.words option.
+After we categorize similar skills, this wordcloud looks more meaningful since we only see some kind of distinctive skills. In this wordcloud we are having skills presenting at least twice showing and least frequent skills dropped (obviously skills with frequency = 1). 
 
-
-```r
-wordcloud(names(tt),tt,random.order=T,
-colors=brewer.pal(8, "Dark2"),rot.per=0.35)
-```
-
-![](CaseStudy2_Nov5_files/figure-html/unnamed-chunk-3-1.png) 
 
 ##Conclusion
 
@@ -663,7 +790,7 @@ We also write a code which puts it all together into one function that we can ca
 
 Next, we visualize these skills using wordcloud after we categorize similar skills into a specific group using R regular expression technique, so we easily find out popular skills that lots of employers want. 
 
-Finally, we could produce two wordcloud plots with only categorized as well as all skills listed ones. Although, we limited the number of skills by 30 on all skills plot, it can be an handy tool because it highlights the most commonly cited words in a text using a quick visualization.
+Finally, we could produce wordcloud showing popular skills that most employers want. It can be an handy tool because it highlights the most commonly cited words in a text using a quick visualization.
 
 
 ##Appendix
@@ -704,6 +831,10 @@ cy.getNextPageLink = function(doc, baseURL = docName(doc))
 
 tmp = cy.getNextPageLink(doc, "http://www.cybercoders.com")
 
-We also had some problem to plot wordcloud since too many skills presented at first, so it made us a hard time to quick visualization.
+We also had some problem to plot wordcloud since too many skills presented at first, so it made us a hard time to perform quick visualization. Moreover, we mistakenly call table(names(tt)) function to have original count of each skill while categorizing similar skills into one. Since names function extracts unique skill name, so table function shows each skill counted as 1.
 
-We use max.words option to show only a certain number of skills and dropped least frequent skills. We also add colors option to distinguish each category and use rot.per option to decide the percentage of words to be rotated 90 degrees in wordcloud.
+We add tapply(tt,names(tt),sum) instead of tt <- table(names(tt)) in order to solve the problem. This preserve the original counts as well as categorizing similar skills into groups.
+
+Since wordcloud function with no additional options does not make the output pretty, we add colors option to distinguish each category and use rot.per option to decide the percentage of words to be rotated 90 degrees in wordcloud.
+
+Lastly, the size of "Machine Learning" is too large to put in wordcloud, so we change it as "ML"
