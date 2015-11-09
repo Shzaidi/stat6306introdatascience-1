@@ -1,6 +1,11 @@
-# STAT6306 CaseStudy2
-Kevin Kyoo Ha Cha  
-Nov 10, 2015  
+---
+title: "STAT6306 CaseStudy2"
+author: "Kevin Kyoo Ha Cha"
+date: "Nov 10, 2015"
+output: 
+  html_document:
+    keep_md: yes
+---
 ## Case Study II: Using Data Science to Define Data Science
 ## Due Date: November 5, 2015
 
@@ -12,34 +17,10 @@ In this case study, We will use R web scraping and text mining technique to expl
 
 
 
-
-```r
+```{r getFreeForm}
 require(XML)
-```
-
-```
-## Loading required package: XML
-```
-
-```r
 require(RCurl)
-```
-
-```
-## Loading required package: RCurl
-## Loading required package: bitops
-```
-
-```r
 require(wordcloud)
-```
-
-```
-## Loading required package: wordcloud
-## Loading required package: RColorBrewer
-```
-
-```r
 StopWords = readLines("http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a11-smart-stop-list/english.stop")
 
 asWords = function(txt, stopWords = StopWords, stem = FALSE)
@@ -80,12 +61,12 @@ cy.getFreeFormWords = function(doc, stopWords = StopWords)
          
          removeStopWords(words, stopWords)
      }
+
 ```
 
 ### Question 1: Implement the following functions. Use the code we explored to extract the date posted, skill sets and salary and location information from the parsed HTML document.
 
-
-```r
+```{r Question1}
 cy.getSkillList = function(doc)
 {
   lis = getNodeSet(doc, "//div[@class = 'skills-section']//
@@ -116,8 +97,7 @@ cy.getLocationSalary = function(doc)
 
 The function `cy.ReadPost()` given below reads each job post. This function implements three other functions: `cy.getFreeFormWords()`, `cy.getSkillList()`, and `cy.getLocationSalary()`.
 
-
-```r
+```{r cy.readPost}
 cy.readPost = function(u, stopWords = StopWords, doc = htmlParse(u))
   {
     ans = list(words = cy.getFreeFormWords(doc, stopWords),
@@ -132,8 +112,7 @@ cy.readPost = function(u, stopWords = StopWords, doc = htmlParse(u))
 ### Reading posts programmatically
 The function `cy.ReadPost()` allows us to read a single post from CyberCoders.com in a very general format. All we need is the URL for the post. Now, let's see about obtaining the URLs using a computer program.
 
-
-```r
+```{r GetPosts}
 # Obtain URLs for job posts
 txt = getForm("http://www.cybercoders.com/search/", searchterms = '"Data Scientist"',
               searchlocation = "",  newsearch = "true", sorttype = "")
@@ -162,46 +141,14 @@ baseURL = "http://www.cybercoders.com/search/")
 ## Testing the function with the parsed version of the first page of results in object doc
 posts = cy.readPagePosts(doc)
 sapply(posts,`[[`, "salary")
-```
-
-```
-##           /data-scientist-job-202521           /data-scientist-job-214172 
-##            "Full-time $120k - $200k"            "Full-time $100k - $160k" 
-##           /data-scientist-job-200988           /data-scientist-job-184567 
-##            "Full-time $100k - $160k"            "Full-time $130k - $160k" 
-##           /data-scientist-job-230442           /data-scientist-job-234161 
-##            "Full-time $140k - $160k" "Full-time Compensation Unspecified" 
-##           /data-scientist-job-223862           /data-scientist-job-230135 
-## "Full-time Compensation Unspecified" "Full-time Compensation Unspecified" 
-##           /data-scientist-job-231278           /data-scientist-job-235549 
-##             "Full-time $50k - $110k"            "Full-time $120k - $150k" 
-##           /data-scientist-job-232102           /data-scientist-job-223543 
-##            "Full-time $100k - $160k"            "Full-time $100k - $150k" 
-##           /data-scientist-job-193909           /data-scientist-job-199692 
-##            "Full-time $110k - $150k" "Full-time Compensation Unspecified" 
-##           /data-scientist-job-221652           /data-scientist-job-224228 
-##             "Full-time $75k - $150k"            "Full-time $100k - $150k" 
-##           /data-scientist-job-227142           /data-scientist-job-227433 
-##            "Full-time $100k - $130k"             "Full-time $75k - $100k" 
-##           /data-scientist-job-227439           /data-scientist-job-227443 
-##            "Full-time $120k - $140k"             "Full-time $90k - $110k"
-```
-
-```r
 summary(sapply(posts, function(x) length(unlist(x$words))))
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    66.0    99.0   126.5   141.1   166.5   326.0
 ```
 
 **Question:** Test the `cy.getFreeFromWords()` function on several different posts.
 
 The following code chunk pulls it all together. The function `cy.getNextPageLink()` retrieves each page from CyberCoders and calls the other functions to parse each post in order to obtain information such as salary, skills, and location.
 
-
-```r
+```{r Next Page of Results}
 # Test of concept
 # getNodeSet(doc, "//a[@rel='next']/@href")[[1]]
 ## A function to get all pages
@@ -221,8 +168,7 @@ tmp = cy.getNextPageLink(doc, "http://www.cybercoders.com")
 ```
 
 Now we have all we need to retrieve all job posts on Cyber Coders for a given search query. The following function puts it all together into a function that we can call with a search string for a job of interest. The function submits the initial query and then reads the posts from each result page.
-
-```r
+```{r cyberCoders}
 cyberCoders =
 function(query)
 {
@@ -247,219 +193,12 @@ function(query)
 
 The function cyberCoders is called below with the skill "Data Scientist". Then, we sort the skills and obtain all skills that are mentioned more than twice in the list.
 
-
-```r
+```{r Get Skills}
 dataSciPosts = cyberCoders("Data Scientist")
 tt = sort(table(unlist(lapply(dataSciPosts, `[[`, "skills"))),
            decreasing = TRUE)
 tt[tt >= 2]
-```
 
-```
-## 
-##                              Machine Learning 
-##                                            97 
-##                                        Python 
-##                                            88 
-##                                   Data Mining 
-##                                            71 
-##                                             R 
-##                                            69 
-##                                        Hadoop 
-##                                            56 
-##                                           SQL 
-##                                            38 
-##                                          Java 
-##                                            25 
-##                                        Matlab 
-##                                            22 
-##                                           SAS 
-##                                            19 
-##                                      Big Data 
-##                                            18 
-##                                         Scala 
-##                                            17 
-##                                    Algorithms 
-##                                            15 
-##                                         Linux 
-##                                            15 
-##                                  Apache Spark 
-##                                            14 
-##                          Predictive Analytics 
-##                                            10 
-##                                  Data Science 
-##                                             9 
-##                                         SPARK 
-##                                             9 
-##                                    Statistics 
-##                                             9 
-##                                           C++ 
-##                                             8 
-##                                 Data Modeling 
-##                                             8 
-##                                Data Scientist 
-##                                             8 
-##                                     Mapreduce 
-##                                             7 
-##                                         NoSQL 
-##                                             7 
-##                          Statistical Analysis 
-##                                             7 
-##                          Statistical Modeling 
-##                                             7 
-##                                           AWS 
-##                                             6 
-##                            Big Data analytics 
-##                                             6 
-##                                 Data Analysis 
-##                                             6 
-##                   Natural Language Processing 
-##                                             6 
-##                           Predictive Modeling 
-##                                             6 
-##                                 Deep Learning 
-##                                             5 
-##                                         C/C++ 
-##                                             4 
-##                            Data Visualization 
-##                                             4 
-##                                          Hive 
-##                                             4 
-##                                       Tableau 
-##                                             4 
-##                         Algorithm Development 
-##                                             3 
-##                           Applied Mathematics 
-##                                             3 
-##                            Bayesian Inference 
-##                                             3 
-##                           Big Data Statistics 
-##                                             3 
-##                               Computer Vision 
-##                                             3 
-##                                 elasticsearch 
-##                                             3 
-##                                         Excel 
-##                                             3 
-##                                           Git 
-##                                             3 
-##                                          HDFS 
-##                                             3 
-##                   Machine Learning algorithms 
-##                                             3 
-##                            Mobile Advertising 
-##                                             3 
-##                                         MySQL 
-##                                             3 
-##                                           NLP 
-##                                             3 
-##                                Pandas & NumPy 
-##                                             3 
-##                                 R programming 
-##                                             3 
-##                                          SPSS 
-##                                             3 
-##                                         Agile 
-##                                             2 
-##                                            AI 
-##                                             2 
-##                            Applied statistics 
-##                                             2 
-##                                Bioinformatics 
-##                                             2 
-##                                 Clinical Data 
-##                                             2 
-##                 Complex Quantitative Analysis 
-##                                             2 
-##               Consumer Segmentation Reporting 
-##                                             2 
-##                            Context Extraction 
-##                                             2 
-##                                Data Analytics 
-##                                             2 
-##                                     data sets 
-##                                             2 
-##                               data structures 
-##                                             2 
-##                              Data Warehousing 
-##                                             2 
-##                                           ETL 
-##                                             2 
-##                   Excel Pivot Tables & Macros 
-##                                             2 
-## Exp with Click stream data(raw web analytics) 
-##                                             2 
-##                           Experimental Design 
-##                                             2 
-##                           Geo-Spatial Analyst 
-##                                             2 
-##                Healthcare/biomedical industry 
-##                                             2 
-##                                        HiveQL 
-##                                             2 
-##                               Large Data Sets 
-##                                             2 
-##                                        Mahout 
-##                                             2 
-##                                    Map/Reduce 
-##                                             2 
-##                                       mongodb 
-##                                             2 
-##                                           OOP 
-##                                             2 
-##                                          Perl 
-##                                             2 
-##                                           PHP 
-##                                             2 
-##                                    PostgreSQL 
-##                                             2 
-##                           Predictive Analysis 
-##                                             2 
-##                         Predictive Analystics 
-##                                             2 
-##                    Product Analyst experience 
-##                                             2 
-##                                   Programming 
-##                                             2 
-##                                      Python/R 
-##                                             2 
-##                                      R/Python 
-##                                             2 
-##                        Recommendation Engines 
-##                                             2 
-##                           Regression analysis 
-##                                             2 
-##                                      SAS/SPSS 
-##                                             2 
-##                                  scikit.learn 
-##                                             2 
-##                                     Scripting 
-##                                             2 
-##                  SQL and Relational Databases 
-##                                             2 
-##                                    SQL Server 
-##                                             2 
-##                            StartUp Experience 
-##                                             2 
-##                           Statistical Methods 
-##                                             2 
-##                        statistical techniques 
-##                                             2 
-##                    Strong Econometric mindset 
-##                                             2 
-##                Strong Math/Physics background 
-##                                             2 
-##                                          Unix 
-##                                             2 
-##                                    Unix/Linux 
-##                                             2 
-##                                           VBA 
-##                                             2 
-##                          Virtual Environments 
-##                                             2
-```
-
-```r
 dataSciPosts = cyberCoders("Data Scientist")
 tt = sort(table(unlist(lapply(dataSciPosts, `[[`, "skills"))),
            decreasing = TRUE)
@@ -472,19 +211,10 @@ The purpose to perform this task is to visualize every skills listed and see how
 
 The max.words option sets maximum number of words to be plotted. In this case we are having maximum of 50 and least frequent skills dropped.
 
-
-```r
+```{r}
 #The option, max.words=50, sets maximum number of words to be plotted. In this case we are having maximum of 50 and least frequent skills dropped.
 wordcloud(names(abc),abc,max.words = 50,colors=brewer.pal(8, "Dark2"))
 ```
-
-```
-## Warning in wordcloud(names(abc), abc, max.words = 50, colors =
-## brewer.pal(8, : Machine Learning could not be fit on page. It will not be
-## plotted.
-```
-
-![](CaseStudy2_Nov5_files/figure-html/unnamed-chunk-1-1.png) 
 
 ###Word Cloud after Categorize
 
@@ -526,8 +256,7 @@ We now combine similar skills into several categories:
 
 15) we also include any skills related to data science and visualization as "Data Science" and "Data Visualization" because these two are very important in our Data Science Class!
 
-
-```r
+```{r}
 i = grepl("^Statist+|statist+",names(tt))
 if(any(i)) names(tt)[i] = "Statistics"
 #tt <- table(names(tt))#recombines renamed categories from tt
@@ -598,62 +327,20 @@ if(any(ll)) names(tt)[ll] = "Data Science"
 tt <- table(names(tt))
 
 length(tt)
-```
-
-```
-## [1] 223
-```
-
-```r
 head(tt)
-```
-
-```
-## 
-##              .NET             Adobe             Agile Agricultural Data 
-##                 1                 1                 1                 1 
-##                AI              Ajax 
-##                 1                 1
-```
-
-```r
 tt[tt >= 2]
-```
-
-```
-## 
-##            Algorithm             Bayesian             Big Data 
-##                    4                    3                    6 
-##                C/C++       Data Analytics          Data Mining 
-##                    2                    4                    3 
-##         Data Science               Hadoop                 Java 
-##                    2                    2                    6 
-##     Machine Learning          Mathematics Predictive Analytics 
-##                    8                    3                    5 
-##               Python                    R                  SAS 
-##                    6                   15                    4 
-##                  SQL           Statistics           Unix/Linux 
-##                   11                   11                    3
-```
-
-```r
 wordcloud(names(tt),tt,min.freq = 1,random.order=T,
 colors=brewer.pal(8, "Dark2"),rot.per=0.35, max.words = 30)
 ```
-
-![](CaseStudy2_Nov5_files/figure-html/unnamed-chunk-2-1.png) 
 
 After we categorize similar skills, this wordcloud looks more meaningful since we only see some kind of distinctive skills. The max.words option sets maximum number of words to be plotted. In this case we are having maximum of 30 and least frequent skills dropped. We also set minimum frequency as 1 to see other skills that we did not categorize. Notice that un-categorized skills display with the least size font as well as in light green colour.
 
 If we want to visualize only categozized skills, we can remove min.freq=1 and max.words option.
 
-
-```r
+```{r}
 wordcloud(names(tt),tt,random.order=T,
 colors=brewer.pal(8, "Dark2"),rot.per=0.35)
 ```
-
-![](CaseStudy2_Nov5_files/figure-html/unnamed-chunk-3-1.png) 
 
 ##Conclusion
 
