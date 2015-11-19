@@ -307,6 +307,55 @@ Therefore, our model is:
 
 #Step 4
 
+Test for deviance
+
+
+```r
+## Test for deviance (null model vs. full model)
+with(esteem1.glm, null.deviance - deviance)#deviances with no B's - deviances with B's
+```
+
+```
+## [1] 112.7442
+```
+
+```r
+with(esteem1.glm, df.null - df.residual)
+```
+
+```
+## [1] 4
+```
+
+```r
+with(esteem1.glm, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE))
+```
+
+```
+## [1] 1.890679e-23
+```
+
+```r
+#we reject the null hypothesis and this is function to get p-value
+logLik(esteem1.glm)
+```
+
+```
+## 'log Lik.' -1697.76 (df=5)
+```
+
+```r
+class(esteem1.glm) #need to have glm in order to do this
+```
+
+```
+## [1] "glm" "lm"
+```
+
+**We reject the null hypothesis and conclude that my model above is significant**
+
+#Step 5
+
 **Obtain Confidence Interval**
 
 
@@ -366,7 +415,7 @@ exp(cbind(OR = coef(esteem1.glm), confint(esteem1.glm))) #odds ratios
 ## Gendermale    0.86397247 0.72820486 1.024616
 ```
 
-#Step 5
+#Step 6
 
 **Intepretation:**
 
@@ -376,7 +425,7 @@ Associated with each 1 percentile increase AFQT score was an estimated 0.76% inc
 
 Associated with each additional year of education was an estimated 7.9% increase in the odds of highest self esteem response (95% CI: 3.5% to 11.7%)
 
-#Step 6 
+#Step 7
 
 **Obtain training and test sets and a "confusion table" for your classifier** 
 
@@ -466,7 +515,7 @@ CrossTable(x = ex1223.testLabels, y = ex1223_pred, prop.chisq=FALSE)
 ## 
 ```
 
-#Step 7
+#Step 8
 ##Conclusion
 
 Not all variables are needed to obtain the best classification.
