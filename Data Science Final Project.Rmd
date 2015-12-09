@@ -1,6 +1,11 @@
-# 12-Gigabyte Airline Flight Delays
-Yihan Xu & Kevin Kyoo Ha Cha & Gunes Alkan, Stat6306 Data Science, Southern Methodist University, Dallas TX  
-December 9, 2015  
+---
+title: "12-Gigabyte Airline Flight Delays"
+author: "Yihan Xu & Kevin Kyoo Ha Cha & Gunes Alkan, Stat6306 Data Science, Southern Methodist University, Dallas TX"
+date: "December 9, 2015"
+output: 
+  html_document: 
+    keep_md: yes
+---
 
 #Introduction:
 
@@ -14,46 +19,19 @@ bigmemory, parallel, doSNOW, ggplot2, reshape2, biganalytics, foreach, and doPar
 
 Also the DayOfWeek is **1:Monday - 7:(Sunday)**
 
-
-```r
+```{r getting the direction and set the memory in R to 13000Mb}
 ##Setting the direction
 setwd("C:/Users/KyooHa/Desktop/Stat6306/Final Project")
 getwd()
-```
-
-```
-## [1] "C:/Users/KyooHa/Desktop/Stat6306/Final Project"
-```
-
-```r
 memory.limit(size=13000)
 ```
 
-```
-## [1] 13000
-```
-
-
-```r
+```{r import the file}
 ##Install the package called "bigmemory", this package will help us to download the large dataset from the internet.
  
 #install.packages("bigmemory",dependencies = c("Depends", "Suggests", "Enhances"))
 library(bigmemory)
-```
 
-```
-## Warning: package 'bigmemory' was built under R version 3.1.3
-```
-
-```
-## Loading required package: bigmemory.sri
-```
-
-```
-## Warning: package 'bigmemory.sri' was built under R version 3.1.3
-```
-
-```r
 ##Data sets are downloaded from the Data Expo '09 web site at http://stat-computing.org/dataexpo/2009/the-data.html
 
 for (year in 1987:2008) {
@@ -65,34 +43,7 @@ for (year in 1987:2008) {
     download.file(url.text, file.name)
   }
 }
-```
 
-```
-## Downloading missing data file 1987.csv.bz2
-## Downloading missing data file 1988.csv.bz2
-## Downloading missing data file 1989.csv.bz2
-## Downloading missing data file 1990.csv.bz2
-## Downloading missing data file 1991.csv.bz2
-## Downloading missing data file 1992.csv.bz2
-## Downloading missing data file 1993.csv.bz2
-## Downloading missing data file 1994.csv.bz2
-## Downloading missing data file 1995.csv.bz2
-## Downloading missing data file 1996.csv.bz2
-## Downloading missing data file 1997.csv.bz2
-## Downloading missing data file 1998.csv.bz2
-## Downloading missing data file 1999.csv.bz2
-## Downloading missing data file 2000.csv.bz2
-## Downloading missing data file 2001.csv.bz2
-## Downloading missing data file 2002.csv.bz2
-## Downloading missing data file 2003.csv.bz2
-## Downloading missing data file 2004.csv.bz2
-## Downloading missing data file 2005.csv.bz2
-## Downloading missing data file 2006.csv.bz2
-## Downloading missing data file 2007.csv.bz2
-## Downloading missing data file 2008.csv.bz2
-```
-
-```r
 ##Read sample file to get column names and types
 d <- read.csv("2008.csv.bz2")
 integer.columns <- sapply(d, is.integer)
@@ -113,34 +64,6 @@ for (year in 1987:2008) {
   }
   rm(d)
 }
-```
-
-```
-## Processing 1987.csv.bz2
-## Processing 1988.csv.bz2
-## Processing 1989.csv.bz2
-## Processing 1990.csv.bz2
-## Processing 1991.csv.bz2
-## Processing 1992.csv.bz2
-## Processing 1993.csv.bz2
-## Processing 1994.csv.bz2
-## Processing 1995.csv.bz2
-## Processing 1996.csv.bz2
-## Processing 1997.csv.bz2
-## Processing 1998.csv.bz2
-## Processing 1999.csv.bz2
-## Processing 2000.csv.bz2
-## Processing 2001.csv.bz2
-## Processing 2002.csv.bz2
-## Processing 2003.csv.bz2
-## Processing 2004.csv.bz2
-## Processing 2005.csv.bz2
-## Processing 2006.csv.bz2
-## Processing 2007.csv.bz2
-## Processing 2008.csv.bz2
-```
-
-```r
 save(integer.columns, factor.columns, factor.levels, file = "factors.RData")
 
 ##Now convert all factors to integers so we can create a bigmatrix of the data
@@ -164,34 +87,6 @@ for (year in 1987:2008) {
               row.names = FALSE, col.names = first)
   first <- FALSE
 }
-```
-
-```
-## Processing 1987.csv.bz2
-## Processing 1988.csv.bz2
-## Processing 1989.csv.bz2
-## Processing 1990.csv.bz2
-## Processing 1991.csv.bz2
-## Processing 1992.csv.bz2
-## Processing 1993.csv.bz2
-## Processing 1994.csv.bz2
-## Processing 1995.csv.bz2
-## Processing 1996.csv.bz2
-## Processing 1997.csv.bz2
-## Processing 1998.csv.bz2
-## Processing 1999.csv.bz2
-## Processing 2000.csv.bz2
-## Processing 2001.csv.bz2
-## Processing 2002.csv.bz2
-## Processing 2003.csv.bz2
-## Processing 2004.csv.bz2
-## Processing 2005.csv.bz2
-## Processing 2006.csv.bz2
-## Processing 2007.csv.bz2
-## Processing 2008.csv.bz2
-```
-
-```r
 close(csv.con)
 
 ##We are using read.big.matrix to convert the non-numeric values to numeric values, the following code is also an answer for Question2.
@@ -199,43 +94,12 @@ close(csv.con)
 library(bigmemory)
 x <- read.big.matrix("airlines.csv", header = TRUE,backingfile = "airlines.bin",descriptorfile = "airlines.desc",type = "integer",extraCols = "age")
 dim(x) #dimension will tell us how big the file of x is,in this case we have 30 columns and 123534969 rows.
-```
-
-```
-## [1] 123534969        30
-```
-
-```r
+ 
 x[1:6,1:6] #it shows the first 6 rows and columns
-```
 
-```
-##      Year Month DayofMonth DayOfWeek DepTime CRSDepTime
-## [1,] 1987    10         14         3     741        730
-## [2,] 1987    10         15         4     729        730
-## [3,] 1987    10         17         6     741        730
-## [4,] 1987    10         18         7     729        730
-## [5,] 1987    10         19         1     749        730
-## [6,] 1987    10         21         3     728        730
-```
-
-```r
 sum(x[, "Year"] == 1987) #compute the number of flights in 1987
-```
-
-```
-## [1] 1311826
-```
-
-```r
 sum(x[,"DayOfWeek"] == 6) #compute the number of Saturday flights can be found using the command
-```
 
-```
-## [1] 15915382
-```
-
-```r
 ##Creating a new bigmatrix, named y, which uses the airline backing file with the attach.big.matrix()function
 
 y <- attach.big.matrix("airlines.desc") #notice x and y are pointing to the same dataset called airlines now.
@@ -248,43 +112,23 @@ y <- attach.big.matrix("airlines.desc") #notice x and y are pointing to the same
 #foo
 ```
 
-
-```r
+```{r}
 ##We use a big.matrix object to store the airline data and a for loop to interate over each day, finding the number of flights.
 x <- attach.big.matrix("airlines.desc")
 dayCount = integer(7)
 for (i in 1:7) 
 dayCount[i] <-  sum(x[,"DayOfWeek"] == i)
 dayCount
-```
 
-```
-## [1] 18136111 18061938 18103222 18083800 18091338 15915382 17143178
-```
-
-```r
 state <- numeric(10)
 for (i in 2:10) 
 state[i] <- state[i - 1] + sample( c(-1, 1), 1 )
 state
-```
 
-```
-##  [1]  0 -1 -2 -3 -4 -5 -4 -5 -4 -5
-```
-
-```r
 ##Downloading a package called "foreach". This package allows us to define embarrassingly parallel loops wither sequentially or in parallel. The codes below uses the foreach() function and the previously created big.matrix object.
 
 #install.packages("foreach")
 library(foreach)
-```
-
-```
-## Warning: package 'foreach' was built under R version 3.1.3
-```
-
-```r
 dayCount <- foreach(i = 1:7, .combine=c) %do% {
   sum(x[,"DayOfWeek"] == i)
 }
@@ -295,24 +139,11 @@ dow <- split(1:nrow(x), x[,"DayOfWeek"])
 names(dow) <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 ##Get the first 6 rows corresponding to Monday flights.
 dow$Mon[1:6]
-```
-
-```
-## [1]  5 11 19 26 32 38
-```
-
-```r
 dayCount <- foreach(dayInds = dow, .combine = c) %do% {
   length(dayInds)
 }
 dayCount
-```
 
-```
-## [1] 18136111 18061938 18103222 18083800 18091338 15915382 17143178
-```
-
-```r
 ##Divide CRSDepTime by 100 and take the floor to get the departure hour.
 depHours <- floor(x[,"CRSDepTime"]/100)
 ##Set the departure hours listed as 24 to 0.
@@ -341,41 +172,7 @@ library(parallel)
 ##Loading our parallel backend.
 #install.packages("doSNOW")
 library(doSNOW)
-```
 
-```
-## Warning: package 'doSNOW' was built under R version 3.1.3
-```
-
-```
-## Loading required package: iterators
-```
-
-```
-## Warning: package 'iterators' was built under R version 3.1.3
-```
-
-```
-## Loading required package: snow
-```
-
-```
-## Warning: package 'snow' was built under R version 3.1.3
-```
-
-```
-## 
-## Attaching package: 'snow'
-## 
-## The following objects are masked from 'package:parallel':
-## 
-##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-##     clusterExport, clusterMap, clusterSplit, makeCluster,
-##     parApply, parCapply, parLapply, parRapply, parSapply,
-##     splitIndices, stopCluster
-```
-
-```r
 ##Use the total number of cores on the machine minus one.
 numParallelCores <- max(1, detectCores()-1)
 
@@ -397,53 +194,23 @@ stopCluster(cl)
 #Visualizing the delays by using ggplot2
 #install.packages("ggplot2")
 library(ggplot2)
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 3.1.3
-```
-
-```r
 #install.packages("reshape2")
 library(reshape2)
-```
-
-```
-## Warning: package 'reshape2' was built under R version 3.1.3
-```
-
-```r
 dq <- melt(delayQuantiles)
 names(dq) <- c("percentile", "hour", "delay")
 qplot(hour, delay, data = dq, color = percentile, geom = "line")
 ```
 
-![](Data_Science_Final_Project_files/figure-html/unnamed-chunk-1-1.png) 
-
-
-```r
+```{r age of the plane}
 ##We want to calculate the age of a plane.
 ##Using the big.matrix object from beofre, which holds the entire data set, we can quickly find that there are 13,536 unique tail codes that appear in the data set.
 
 length(unique(x[,"TailNum"]))
-```
 
-```
-## [1] 13538
-```
-
-```r
 #To find the age of a plane, we need to find the first time a tail code apprears, so we will split the data by the TailNum variable and use foreach() to find this value for each Tailnum group.
 
 #install.packages("doParallel")
 library(doParallel)
-```
-
-```
-## Warning: package 'doParallel' was built under R version 3.1.3
-```
-
-```r
 tailnumber <- (x[,11])
 tailSplit <- split(1:length(tailnumber),tailnumber)
 registerDoParallel()
@@ -471,121 +238,26 @@ minMonth <- min(x[minYearTailInds, "Month"], na.rm = TRUE)
 
 ##Creating a new column in the airlines dataset called "age".
 x[,"age"] <- x[,"Year"] * 12 + x[,"Month"]- planeStart[x[,"TailNum"]]
-```
 
-```
-## Assignment will down cast from double to integer
-## Hint: To remove this warning type:  options(bigmemory.typecast.warning=FALSE)
-```
-
-```
-## Warning in SetCols.bm(x, j, value):
-```
-
-```r
 ##Since we have the age of a plane, we will create a linear model with arrival delay modeled as a linear function of airplane age to see if there is an association between older planes and larger arrival delays.
 #install.packages("biganalytics")
 library(biganalytics)
-```
-
-```
-## Warning: package 'biganalytics' was built under R version 3.1.3
-```
-
-```
-## Loading required package: biglm
-```
-
-```
-## Warning: package 'biglm' was built under R version 3.1.3
-```
-
-```
-## Loading required package: DBI
-```
-
-```
-## Warning: package 'DBI' was built under R version 3.1.3
-```
-
-```r
 blm <- biglm.big.matrix( ArrDelay ~ age, data = x )
 summary(blm)
-```
-
-```
-## Large data regression model: biglm(formula = formula, data = data, ...)
-## Sample size =  72272954 
-##               Coef   (95%    CI)     SE p
-## (Intercept) 7.6911 7.6804 7.7017 0.0053 0
-## age         0.0034 0.0032 0.0035 0.0001 0
-```
-
-```r
 ##The model indicates that older planes are associated with large delays. But the effect is very small and there may also be effects that are not accounted for in the model.
 ```
 
 #Answering Questions from the book
 
-
-```r
+```{r Questions in the Chapter}
 ##Question3: How many flights were there for each day of the week?
 sum(x[,"DayOfWeek"] ==1)
-```
-
-```
-## [1] 18136111
-```
-
-```r
 sum(x[,"DayOfWeek"] ==2)
-```
-
-```
-## [1] 18061938
-```
-
-```r
 sum(x[,"DayOfWeek"] ==3)
-```
-
-```
-## [1] 18103222
-```
-
-```r
 sum(x[,"DayOfWeek"] ==4)
-```
-
-```
-## [1] 18083800
-```
-
-```r
 sum(x[,"DayOfWeek"] ==5)
-```
-
-```
-## [1] 18091338
-```
-
-```r
 sum(x[,"DayOfWeek"] ==6)
-```
-
-```
-## [1] 15915382
-```
-
-```r
 sum(x[,"DayOfWeek"] ==7)
-```
-
-```
-## [1] 17143178
-```
-
-```r
 ## 18136111 flights on Sunday
 ## 18061938 flights on Monday
 ## 18103222 flights on Tuesday
@@ -596,50 +268,9 @@ sum(x[,"DayOfWeek"] ==7)
 
 ##Question4: For each year,how many flights were there for each day of the week?
 table(x[,1],x[,4])
-```
 
-```
-##       
-##              1       2       3       4       5       6       7
-##   1987  190711  190238  190235  200911  184913  173370  181448
-##   1988  755898  757140  757963  753415  766364  697795  713521
-##   1989  733459  735404  735180  731008  731548  668080  706521
-##   1990  781823  770341  770044  766575  765068  694251  722791
-##   1991  747531  758840  745401  739321  739313  652991  693528
-##   1992  745442  746435  758213  751417  736609  656920  697121
-##   1993  741084  743108  741988  737026  746019  663606  697670
-##   1994  754636  756532  756864  751537  751531  695245  713703
-##   1995  773467  778389  779452  775836  776992  695286  748013
-##   1996  793071  792543  778193  774533  775343  699527  738773
-##   1997  790298  791617  802130  785731  786342  706198  749527
-##   1998  788003  789241  789076  796404  782299  694528  745170
-##   1999  810519  812478  812857  809243  817145  704006  761636
-##   2000  825186  828523  830751  827740  828944  741662  800241
-##   2001  881379  871342  871772  870683  871140  772781  828683
-##   2002  774285  780556  769799  768973  771174  674222  732350
-##   2003  959114  947126  962100  952542  954701  811260  901697
-##   2004 1044508 1033863 1036521 1060245 1061447  903807  988879
-##   2005 1048968 1037289 1043208 1047749 1050985  919442  992955
-##   2006 1048054 1030322 1042952 1052949 1056606  899531 1011508
-##   2007 1112474 1078562 1088858 1097738 1101689  933338 1040556
-##   2008 1036201 1032049 1039665 1032224 1035166  857536  976887
-```
-
-```r
 ##Question5: For each year, how many of the tail codes are listed as NA?
 tapply(x[,11],x[,1],ff<-function(x) {sum(is.na(x))})
-```
-
-```
-##    1987    1988    1989    1990    1991    1992    1993    1994    1995 
-## 1311826 5202096 5041200 5270893 5076925 5092157 5070501 5180048       0 
-##    1996    1997    1998    1999    2000    2001    2002    2003    2004 
-##       0       0       0       0       0       0       0       0       0 
-##    2005    2006    2007    2008 
-##       0       0       0       0
-```
-
-```r
 ##By looking at the table we got from R,we can say that in early years we have more missing tail codes. Actually, when further exploration has been done, all the tail codes appeared to be missing in some years, such as 1987 and 1988.
 
 ##Question6: Which year had the greatest proportion of late flights? 
@@ -647,207 +278,39 @@ airSubset <- x[x[,22] == 0 & (x[,16] >= 15 | x[,15] >= 15),
       c("Year", "UniqueCarrier", "Origin", "Dest", "DepDelay", "ArrDelay")]
 ## find the overall ratio of flights that were delayed
 nrow(airSubset) / nrow(x) 
-```
-
-```
-## [1] 0.2273807
-```
-
-```r
 ## following loop calculates the proportions of late flights (which have more than 15 min delay)
 #for (i in 1987:2008){  pp[i] = nrow(airSubset[airSubset[,1] == i,])/nrow(x[x[,1] == i,])}
 #max(pp[1987:2008])
 
 ##Since for loop takes longer and inefficient for a large data set like airlines, we decided to do an alternative method.
 nrow(airSubset[airSubset[,1] == 1987,])/nrow(x[x[,1] == 1987,])
-```
-
-```
-## [1] 0.2619471
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1988,])/nrow(x[x[,1] == 1988,])
-```
-
-```
-## [1] 0.2130672
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1989,])/nrow(x[x[,1] == 1989,])
-```
-
-```
-## [1] 0.2492169
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1990,])/nrow(x[x[,1] == 1990,])
-```
-
-```
-## [1] 0.2166621
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1991,])/nrow(x[x[,1] == 1991,])
-```
-
-```
-## [1] 0.1875429
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1992,])/nrow(x[x[,1] == 1992,])
-```
-
-```
-## [1] 0.1883328
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1993,])/nrow(x[x[,1] == 1993,])
-```
-
-```
-## [1] 0.1936006
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1994,])/nrow(x[x[,1] == 1994,])
-```
-
-```
-## [1] 0.1968993
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1995,])/nrow(x[x[,1] == 1995,])
-```
-
-```
-## [1] 0.2231502
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1996,])/nrow(x[x[,1] == 1996,])
-```
-
-```
-## [1] 0.2577787
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1997,])/nrow(x[x[,1] == 1997,])
-```
-
-```
-## [1] 0.2280395
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1998,])/nrow(x[x[,1] == 1998,])
-```
-
-```
-## [1] 0.2268236
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 1999,])/nrow(x[x[,1] == 1999,])
-```
-
-```
-## [1] 0.2368188
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 2000,])/nrow(x[x[,1] == 2000,])
-```
-
-```
-## [1] 0.2688039
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 2001,])/nrow(x[x[,1] == 2001,])
-```
-
-```
-## [1] 0.2158211
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 2002,])/nrow(x[x[,1] == 2002,])
-```
-
-```
-## [1] 0.1932557
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 2003,])/nrow(x[x[,1] == 2003,])
-```
-
-```
-## [1] 0.185866
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 2004,])/nrow(x[x[,1] == 2004,])
-```
-
-```
-## [1] 0.2274959
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 2005,])/nrow(x[x[,1] == 2005,])
-```
-
-```
-## [1] 0.2367272
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 2006,])/nrow(x[x[,1] == 2006,])
-```
-
-```
-## [1] 0.2596381
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 2007,])/nrow(x[x[,1] == 2007,])
-```
-
-```
-## [1] 0.2747858
-```
-
-```r
 nrow(airSubset[airSubset[,1] == 2008,])/nrow(x[x[,1] == 2008,])
-```
 
-```
-## [1] 0.2479914
-```
-
-```r
 ##Here, we have created a subset of airline data for those flights with more than or equal to 15 minutes delay. After finding proportions for 22 years and comparing the results, we saw that 2007 has the greatest proportion of around 0.275 for late flights, that is, 27.5% of all times, flights were delayed in 2007 in the United States.
 
 
 ##Question7: Which flight day is best for minimizing departure delays? Which time of day?
 tapply(x[,16], x[,4], min, na.rm = TRUE)
-```
-
-```
-##     1     2     3     4     5     6     7 
-## -1199 -1410 -1196 -1199 -1370 -1194 -1199
-```
-
-```r
 # 1     2     3     4     5     6     7 
 #-1199 -1410 -1196 -1199 -1370 -1194 -1199 
 
@@ -855,25 +318,8 @@ tapply(x[,16], x[,4], min, na.rm = TRUE)
 airSubset2 <- x[x[,22] == 0 & (x[,16] < 15 | x[,15] < 15), 
                   c("Year", "DayofMonth", "DayOfWeek", "DepDelay", "ArrDelay")]
 tapply( airSubset2[,4], airSubset2[,3], mean, na.rm = TRUE )
-```
-
-```
-##         1         2         3         4         5         6         7 
-## 0.5873116 0.2606939 0.4510359 0.8664876 1.0902376 0.6517714 0.8898542
-```
-
-```r
 tapply( airSubset2[,5], airSubset2[,3], mean, na.rm = TRUE )
-```
 
-```
-##           1           2           3           4           5           6 
-## -1.08738985 -1.10723108 -0.64169131 -0.03418885 -0.03895954 -2.42191036 
-##           7 
-## -1.50855970
-```
-
-```r
 #another ineffient way: 
 #tapply( x[,16], x[,4], mean, na.rm = TRUE )
 #tapply( x[,15], x[,4], mean, na.rm = TRUE )
@@ -881,104 +327,15 @@ tapply( airSubset2[,5], airSubset2[,3], mean, na.rm = TRUE )
 ##Question9: Which is the best day of the month to fly?
 xx1 <- tapply( x[,16], x[,3], mean, na.rm = TRUE )
 match(min(xx1),xx1)
-```
-
-```
-## [1] 7
-```
-
-```r
 xx2 <- tapply( x[,15], x[,3], mean, na.rm = TRUE )
-```
-
-```
-## Warning in mean.default(X[[14L]], ...): Reached total allocation of
-## 13000Mb: see help(memory.size)
-```
-
-```
-## Warning in mean.default(X[[14L]], ...): Reached total allocation of
-## 13000Mb: see help(memory.size)
-```
-
-```r
 match(min(xx2),xx2)
-```
 
-```
-## [1] 25
-```
-
-```r
 airSubset2 <- x[x[,22] == 0 & (x[,16] < 15 | x[,15] < 15), 
                   c("Year", "DayofMonth", "DayOfWeek", "DepDelay", "ArrDelay")]
-```
-
-```
-## Warning in CCleanIndices(as.double(i), as.double(nrow(x))): Reached total
-## allocation of 13000Mb: see help(memory.size)
-```
-
-```
-## Warning in CCleanIndices(as.double(i), as.double(nrow(x))): Reached total
-## allocation of 13000Mb: see help(memory.size)
-```
-
-```r
 xx3 <- tapply( airSubset2[,4], airSubset2[,2], mean, na.rm = TRUE )
-```
-
-```
-## Warning in tapply(airSubset2[, 4], airSubset2[, 2], mean, na.rm = TRUE):
-## Reached total allocation of 13000Mb: see help(memory.size)
-```
-
-```
-## Warning in tapply(airSubset2[, 4], airSubset2[, 2], mean, na.rm = TRUE):
-## Reached total allocation of 13000Mb: see help(memory.size)
-```
-
-```
-## Warning in mean.default(X[[21L]], ...): Reached total allocation of
-## 13000Mb: see help(memory.size)
-```
-
-```
-## Warning in mean.default(X[[21L]], ...): Reached total allocation of
-## 13000Mb: see help(memory.size)
-```
-
-```r
 match(min(xx3),xx3)
-```
-
-```
-## [1] 4
-```
-
-```r
 xx4 <- tapply( airSubset2[,5], airSubset2[,2], mean, na.rm = TRUE )
-```
-
-```
-## Warning in split.default(X, group): Reached total allocation of 13000Mb:
-## see help(memory.size)
-```
-
-```
-## Warning in split.default(X, group): Reached total allocation of 13000Mb:
-## see help(memory.size)
-```
-
-```r
 match(min(xx4),xx4)
-```
-
-```
-## [1] 31
-```
-
-```r
 #Here, we have calculated mean departure and arrival delays for all years and all delays, as well as for a subset of data which has less than 15 minutes delays. The resualts we get depending on the departure and arrival time are:
 #Departure Information:
 #For the whole dataset:
